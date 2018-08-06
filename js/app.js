@@ -62,7 +62,52 @@ var Player = function() {
 
 let player = new Player();
 
+var StaticRock = function() {
+	this.x = 202.5;
+	this.y = 225;
+	this.rock = 'images/Rock.png';
+	this.width = 70;
+	this.height = 70;
+};
 
+var RandomRock = function() {
+	let randNumX = Math.random() * 100;
+	this.x = (function() {
+		let pos;
+		if (randNumX > 80) {
+			pos = 1.5;
+		} else if (randNumX > 60) {
+			pos = 101.5;
+		} else if (randNumX > 40) {
+			pos = 303.5;
+		} else if (randNumX > 20) {
+			pos = 404.5;
+		}
+		return pos;
+	}());
+	this.y = (function() {
+		let pos;
+		if (randNumX > 80) {
+			pos = 225;
+		} else if (randNumX > 60) {
+			pos = 145;
+		} else if (randNumX > 40) {
+			pos = 305;
+		} else if (randNumX > 20) {
+			pos = 385;
+		} else {
+			pos = 65;
+		}
+		return pos;
+	}());
+	this.rock = 'images/Rock.png';
+	this.width = 70;
+	this.height = 70;
+};
+
+let sRock = new StaticRock();
+let rRock = new RandomRock();
+let rRock2 = new RandomRock();
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -160,6 +205,16 @@ Player.prototype.render = function() {
 	debugger;
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+StaticRock.prototype.render = function() {
+	ctx.drawImage(Resources.get(this.rock), this.x, this.y);
+};
+
+RandomRock.prototype.render = function() {
+	ctx.drawImage(Resources.get(this.rock), this.x, this.y);
+};
+
+
 
 // Now write your own player class
 // This class requires an update(), render() and
