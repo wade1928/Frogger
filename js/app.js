@@ -135,11 +135,11 @@ Enemy.prototype.update = function(dt) {
 		}());
 	};
 
-	let slow = dt * 10;
-	let slow2 = dt * 25;
-	let medium = dt * 40;
-	let medium2 = dt * 55;
-	let fast = dt * 70;
+	let slow = dt * 5;
+	let slow2 = dt * 5;
+	let medium = dt * 5;
+	let medium2 = dt * 5;
+	let fast = dt * 5;
 	let stupid = dt * 1000;
 
 
