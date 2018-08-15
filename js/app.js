@@ -108,6 +108,7 @@ var RandomRock = function() {
 let sRock = new StaticRock();
 let rRock = new RandomRock();
 let rRock2 = new RandomRock();
+let rocks = [sRock, rRock, rRock2];
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -277,5 +278,53 @@ function checkWin() {
 	if (player.y < -0) {
 		let modal = document.getElementById('endModal');
 		modal.style.display = "block";
+	}
+};
+
+function checkRocks(dt) {
+	debugger;
+	for(let rock of rocks) {
+		{
+			if (player.move === 'up' && player.y > rock.y) {
+				if (player.x < rock.x + 3 && player.x > rock.x - 3) {
+					let newPos = player.y - 80;
+					if (newPos + player.height < rock.y + 80) {
+						player.x += 0;
+						player.y += 0;
+						player.move = 'none';
+					}
+				}
+			} else if (player.move === 'down' && player.y < rock.y) {
+				if (player.x < rock.x + 3 && player.x > rock.x - 3) {
+					let newPos = player.y + 80;
+					if (newPos + player.height > rock.y) {
+						player.x += 0;
+						player.y += 0;
+						player.move = 'none';
+					}
+				}
+			} else if (player.move === 'left' && player.x > rock.x) {
+				if (player.y < rock.y + 10 && player.y > rock.y - 10) {
+					let newPos = player.x - 100;
+					if (newPos + player.width < rock.x + 100) {
+						player.x += 0;
+						player.y += 0;
+						player.move = 'none';
+					}
+				}
+
+			} else if (player.move === 'right' && player.x < rock.x) {
+				if (player.y < rock.y + 10 && player.y > rock.y - 10) {
+					let newPos = player.x + 100;
+					if (newPos + player.width > rock.x) {
+						player.x += 0;
+						player.y += 0;
+						player.move = 'none';
+					}
+				}
+
+
+			}
+		}
 	}
 };
