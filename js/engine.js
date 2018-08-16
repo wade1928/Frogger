@@ -168,6 +168,7 @@ var Engine = (function(global) {
 		sRock.render();
 		rRock.render();
 		rRock2.render();
+		blueGem.render();
 	}
 
 	/* This function does nothing but it could have been a good place to
@@ -186,6 +187,19 @@ var Engine = (function(global) {
 		modal.style.display = "block";
 		let modal2 = document.getElementById('endModal');
 		modal2.style.display = 'none';
+		blueGem = new Gem();
+		score = 5;
+		document.getElementById('star1').style.display ='inline-block';
+		document.getElementById('star2').style.display ='inline-block';
+		document.getElementById('star3').style.display ='inline-block';
+		document.getElementById('star4').style.display ='inline-block';
+		rRock = new RandomRock();
+		rRock2 = new RandomRock(); 
+		rocks = [sRock, rRock, rRock2];
+		for(let enemy of allEnemies){
+			enemy.x = -20;
+		}
+
 		};
 
 
@@ -203,7 +217,10 @@ var Engine = (function(global) {
 		'images/char-horn-girl.png',
 		'images/char-pink-girl.png',
 		'images/char-princess-girl.png',
-		'images/Rock.png'
+		'images/Rock.png',
+		'images/blueGem.png',
+		'images/orangeGem.png',
+		'images/greenGem.png'
 	]);
 	Resources.onReady(init);
 

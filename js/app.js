@@ -1,10 +1,8 @@
-// Enemies our player must avoid
+//Variables to determine score
+let score = 5;
+let arrayOfStars = Array.from(document.getElementById('starsCount').children);
+//Object constructor for enemies
 var Enemy = function() {
-	// Variables applied to each of our instances go here,
-	// we've provided one for you to get started
-
-	// The image/sprite for our enemies, this uses
-	// a helper we've provided to easily load images
 	this.sprite = 'images/enemy-bug.png';
 	this.width = 70;
 	this.height = 70;
@@ -26,15 +24,15 @@ var Enemy = function() {
 		return pos;
 	}());
 };
-
-
-
+//Instances of enemies
+let enemy1 = new Enemy();
+let enemy2 = new Enemy();
+let enemy3 = new Enemy();
+let enemy4 = new Enemy();
+let enemy5 = new Enemy();
+let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
+//Object constructor for player
 var Player = function() {
-	// Variables applied to each of our instances go here,
-	// we've provided one for you to get started
-
-	// The image/sprite for our enemies, this uses
-	// a helper we've provided to easily load images
 	this.sprite = 'images/char-boy.png';
 	this.width = 70;
 	this.height = 70;
@@ -42,8 +40,9 @@ var Player = function() {
 	this.y = 550;
 	this.move = 'none';
 };
-
-
+//Instance of player
+let player = new Player();
+//Function to allow user to choose sprite at the beginning of each game
 (function getSprite() {
 	document.getElementById('play').addEventListener('click', function() {
 		player = new Player();
@@ -59,9 +58,7 @@ var Player = function() {
 	}
 
 }());
-
-let player = new Player();
-
+//Object constructor for middle rock
 var StaticRock = function() {
 	this.x = 202.5;
 	this.y = 225;
@@ -69,7 +66,8 @@ var StaticRock = function() {
 	this.width = 70;
 	this.height = 70;
 };
-
+let sRock = new StaticRock();
+//Object constructor for random rocks
 var RandomRock = function() {
 	let randNumX = Math.random() * 100;
 	this.x = (function() {
@@ -82,6 +80,8 @@ var RandomRock = function() {
 			pos = 303.5;
 		} else if (randNumX > 20) {
 			pos = 404.5;
+		} else {
+			pos = 505.5;
 		}
 		return pos;
 	}());
@@ -104,18 +104,34 @@ var RandomRock = function() {
 	this.width = 70;
 	this.height = 70;
 };
-
-let sRock = new StaticRock();
 let rRock = new RandomRock();
 let rRock2 = new RandomRock();
 let rocks = [sRock, rRock, rRock2];
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-
+if (rRock.y === rRock2.y && rRock.x === rRock2.x) {
+	rRock.y += 80;
+	rRock.x += 100;
+};
+//Object constructor for blue gem
+var Gem = function() {
+	this.x = 217;
+	this.y = 172;
+	this.gem = 'images/blueGem.png';
+	this.width = 70;
+	this.height = 70;
+};
+let blueGem = new Gem();
+//Event listener for key presses
+document.addEventListener('keyup', function(e) {
+	var allowedKeys = {
+		37: 'left',
+		38: 'up',
+		39: 'right',
+		40: 'down'
+	};
+	player.handleInput(allowedKeys[e.keyCode]);
+});
+//Method to update enemy position using delta time
 Enemy.prototype.update = function(dt) {
-	//this.x = (this.x + 50) * dt;
-
 	let randNumX = Math.random() * 100;
 	if (this.x > 505) {
 		this.x = -25;
@@ -135,16 +151,13 @@ Enemy.prototype.update = function(dt) {
 			return pos;
 		}());
 	};
-
-	let slow = dt * 5;
-	let slow2 = dt * 5;
-	let medium = dt * 5;
-	let medium2 = dt * 5;
-	let fast = dt * 5;
+	//Speed for each of the Enemy instances
+	let slow = dt * 10;
+	let slow2 = dt * 25;
+	let medium = dt * 40;
+	let medium2 = dt * 55;
+	let fast = dt * 100;
 	let stupid = dt * 1000;
-
-
-
 	allEnemies[0].x += slow;
 	allEnemies[1].x += medium;
 	allEnemies[2].x += fast;
@@ -152,18 +165,8 @@ Enemy.prototype.update = function(dt) {
 	allEnemies[4].x += medium2;
 
 };
-
-
-
-//this.x = this.x + (((Math.random() * 100) * 2) + ((Math.random() * 100) * 2) + ((Math.random() * 100) * 2)) * dt;
-// You should multiply any movement by the dt parameter
-// which will ensure the game runs at the same speed for
-// all computers.
-
-
-
+//Method to update player position based on delta time
 Player.prototype.update = function(dt) {
-
 	let speed = dt * 100;
 	if (this.move === 'up') {
 		let newPos = this.y - 80;
@@ -189,14 +192,7 @@ Player.prototype.update = function(dt) {
 	this.move = 'none';
 };
 
-
-
-// You should multiply any movement by the dt parameter
-// which will ensure the game runs at the same speed for
-// all computers.
-
-
-// Draw the enemy on the screen, required method for game
+//Methods to render each object instance
 Enemy.prototype.render = function() {
 
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -215,12 +211,12 @@ RandomRock.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.rock), this.x, this.y);
 };
 
+Gem.prototype.render = function() {
+	ctx.drawImage(Resources.get(this.gem), this.x, this.y);
+};
 
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
+//Method to handle user directional input
 Player.prototype.handleInput = function(dir) {
 
 	if (dir === 'up' && (this.y - 80) > -30) {
@@ -238,52 +234,38 @@ Player.prototype.handleInput = function(dir) {
 };
 
 
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-let enemy1 = new Enemy();
-let enemy2 = new Enemy();
-let enemy3 = new Enemy();
-let enemy4 = new Enemy();
-let enemy5 = new Enemy();
-let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
-// Place the player object in a variable called player
-
-
-
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-	var allowedKeys = {
-		37: 'left',
-		38: 'up',
-		39: 'right',
-		40: 'down'
-	};
-	console.log(allowedKeys[e.keyCode]);
-	player.handleInput(allowedKeys[e.keyCode]);
-});
-
+//Function to check for enemy/player collision and update sprite accordingly
 function checkCollisions() {
 	for (let enemy of allEnemies) {
 		if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x &&
 			player.y < enemy.y + enemy.height && player.y + player.height > enemy.y) {
 			player.x = 202.5;
 			player.y = 550;
+			score -= 1;
 		}
+
 	}
 };
 
+//Function to check if the player has obtained the blue gem and reached the top level
 function checkWin() {
-	if (player.y < -0) {
+	if ((player.x > 195 && player.x < 215) && (player.y > 140 && player.y < 150)) {
+		blueGem.y = 12;
+	};
+	if (player.y < -0 && blueGem.y === 12) {
 		let modal = document.getElementById('endModal');
+		checkStars();
 		modal.style.display = "block";
+	} else if (player.y < -0 && blueGem.y !== 12) {
+		player.x = 202.5;
+		player.y = 550;
 	}
 };
 
+//Function to stop player movement if rock is present
 function checkRocks(dt) {
 	debugger;
-	for(let rock of rocks) {
+	for (let rock of rocks) {
 		{
 			if (player.move === 'up' && player.y > rock.y) {
 				if (player.x < rock.x + 3 && player.x > rock.x - 3) {
@@ -326,5 +308,24 @@ function checkRocks(dt) {
 
 			}
 		}
+	}
+};
+//Function to display the correct number of stars in the end modal
+function checkStars() {
+	if (score === 4) {
+		document.getElementById('star1').style.display = 'none';
+	} else if (score === 3) {
+		document.getElementById('star1').style.display = 'none';
+		document.getElementById('star2').style.display = 'none';
+	} else if (score === 2) {
+		document.getElementById('star1').style.display = 'none';
+		document.getElementById('star2').style.display = 'none';
+		document.getElementById('star3').style.display = 'none';
+	} else if (score <= 1) {
+		document.getElementById('star1').style.display = 'none';
+		document.getElementById('star2').style.display = 'none';
+		document.getElementById('star3').style.display = 'none';
+		document.getElementById('star4').style.display = 'none';
+
 	}
 };

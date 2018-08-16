@@ -58,3 +58,19 @@ ul {
 	font-size: 110%;
 	margin-bottom: 5px;
 };
+
+.stars {
+  padding: 0;
+  display: inline-block;
+  margin-left: 0;
+}
+.stars li {
+  list-style: none;
+  display: inline-block;
+ 
+}
+
+#starsCount {
+	margin: 0 auto;
+}
+

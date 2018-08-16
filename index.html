@@ -3,32 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Frogger</title>
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<!-- The Modals -->
-	<div id="endModal" class="modal">
-
-	  <!-- Modal content -->
-	  <div class="modal-content">
-	    <div class="modal-header">
-	      <h2>Congratulations!</h2>
-	    </div>
-	    <div class="modal-body">
-	      <ul id='score-list'>
-	        <li>
-	          <h3>Score: <span id='score'></span></h3>
-	        </li>
-
-	      </ul>
-	    </div>
-	    <div class="modal-footer">
-	      <h3>Click here to play again</h3>
-	      <button type='submit' id='play'>Play!</button>
-	    </div>
-	  </div>
-
-	</div>
 	<div id="beginModal" class="modal">
 
 	  <!-- Modal content -->
@@ -51,6 +30,38 @@
 	  </div>
 
 	</div>
+
+	<div id="endModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <h2>Congratulations!</h2>
+	    </div>
+	    <div class="modal-body">
+	     
+	       
+	          
+	          <ul class="stars" id='starsCount'>
+	          	<li><h3>Score: <span id='score'></span></h3></li>
+	            <li id='star1'><i class="fa fa-star"></i></li>
+	            <li id='star2'><i class="fa fa-star"></i></li>
+	            <li id='star3'><i class="fa fa-star"></i></li>
+	            <li id='star4'><i class="fa fa-star"></i></li>
+	            <li><i class="fa fa-star"></i></li>
+	          </ul>
+	       
+
+	     
+	    </div>
+	    <div class="modal-footer">
+	      <h3>Click here to play again</h3>
+	      <button type='submit' id='play'>Play!</button>
+	    </div>
+	  </div>
+
+	</div>
+	
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
