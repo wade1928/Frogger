@@ -198,6 +198,7 @@ var Engine = (function(global) {
 		rocks = [sRock, rRock, rRock2];
 		for(let enemy of allEnemies){
 			enemy.x = -20;
+			enemy.y = enemy.calculateY();
 		}
 
 		};

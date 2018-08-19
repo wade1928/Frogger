@@ -5,32 +5,12 @@ let arrayOfStars = Array.from(document.getElementById('starsCount').children);
 var Enemy = function() {
 	this.sprite = 'images/enemy-bug.png';
 	this.width = 70;
+	debugger;
 	this.height = 70;
 	this.x = -20;
-	this.y = (function() {
-		let randNumX = Math.random() * 100;
-		let pos;
-		if (randNumX > 80) {
-			pos = 225;
-		} else if (randNumX > 60) {
-			pos = 145;
-		} else if (randNumX > 40) {
-			pos = 305;
-		} else if (randNumX > 20) {
-			pos = 385;
-		} else {
-			pos = 65;
-		}
-		return pos;
-	}());
+	this.y = this.calculateY();
 };
-//Instances of enemies
-let enemy1 = new Enemy();
-let enemy2 = new Enemy();
-let enemy3 = new Enemy();
-let enemy4 = new Enemy();
-let enemy5 = new Enemy();
-let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
+
 //Object constructor for player
 var Player = function() {
 	this.sprite = 'images/char-boy.png';
@@ -215,6 +195,30 @@ Gem.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.gem), this.x, this.y);
 };
 
+Enemy.prototype.calculateY = function() {
+	let randNumX = Math.random() * 100;
+	let pos;
+	if (randNumX > 80) {
+		pos = 225;
+	} else if (randNumX > 60) {
+		pos = 145;
+	} else if (randNumX > 40) {
+		pos = 305;
+	} else if (randNumX > 20) {
+		pos = 385;
+	} else {
+		pos = 65;
+	}
+	return pos;
+};
+
+//Instances of enemies
+let enemy1 = new Enemy();
+let enemy2 = new Enemy();
+let enemy3 = new Enemy();
+let enemy4 = new Enemy();
+let enemy5 = new Enemy();
+let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
 //Method to handle user directional input
 Player.prototype.handleInput = function(dir) {
@@ -264,7 +268,7 @@ function checkWin() {
 
 //Function to stop player movement if rock is present
 function checkRocks(dt) {
-	debugger;
+	
 	for (let rock of rocks) {
 		{
 			if (player.move === 'up' && player.y > rock.y) {
