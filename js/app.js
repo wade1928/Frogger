@@ -1,6 +1,7 @@
 //Variables to determine score
 let score = 5;
 let arrayOfStars = Array.from(document.getElementById('starsCount').children);
+
 //Object constructor for enemies
 var Enemy = function() {
 	this.sprite = 'images/enemy-bug.png';
@@ -20,24 +21,7 @@ var Player = function() {
 	this.y = 550;
 	this.move = 'none';
 };
-//Instance of player
-let player = new Player();
-//Function to allow user to choose sprite at the beginning of each game
-(function getSprite() {
-	document.getElementById('play').addEventListener('click', function() {
-		player = new Player();
 
-	});
-	let sprites = Array.from(document.querySelectorAll('img'));
-	for (let i = 0; i < sprites.length; i++) {
-		sprites[i].addEventListener('click', function() {
-			let spriteSRC = sprites[i].getAttribute('src');
-			player.sprite = spriteSRC;
-			document.getElementById('beginModal').style.display = 'none';
-		});
-	}
-
-}());
 //Object constructor for middle rock
 var StaticRock = function() {
 	this.x = 202.5;
@@ -46,7 +30,7 @@ var StaticRock = function() {
 	this.width = 70;
 	this.height = 70;
 };
-let sRock = new StaticRock();
+
 //Object constructor for random rocks
 var RandomRock = function() {
 	let randNumX = Math.random() * 100;
@@ -65,52 +49,26 @@ var Gem = function() {
 	this.width = 70;
 	this.height = 70;
 };
-let blueGem = new Gem();
-//Event listener for key presses
-document.addEventListener('keyup', function(e) {
-	var allowedKeys = {
-		37: 'left',
-		38: 'up',
-		39: 'right',
-		40: 'down'
-	};
-	player.handleInput(allowedKeys[e.keyCode]);
-});
 //Method to update enemy position using delta time
 Enemy.prototype.update = function(dt) {
 	let randNumX = Math.random() * 100;
 	if (this.x > 505) {
 		this.x = -25;
-		this.y = (function() {
-			let pos;
-			if (randNumX > 80) {
-				pos = 225;
-			} else if (randNumX > 60) {
-				pos = 145;
-			} else if (randNumX > 40) {
-				pos = 305;
-			} else if (randNumX > 20) {
-				pos = 385;
-			} else {
-				pos = 65;
-			}
-			return pos;
-		}());
-	};
+		this.y = this.calculateY();
+	}
 	//Speed for each of the Enemy instances
 	let slow = dt * 10;
 	let slow2 = dt * 25;
 	let medium = dt * 40;
 	let medium2 = dt * 55;
 	let fast = dt * 100;
-	let stupid = dt * 1000;
 	allEnemies[0].x += slow;
 	allEnemies[1].x += medium;
 	allEnemies[2].x += fast;
 	allEnemies[3].x += slow2;
 	allEnemies[4].x += medium2;
-
 };
+
 //Method to update player position based on delta time
 Player.prototype.update = function(dt) {
 	let speed = dt * 100;
@@ -161,6 +119,7 @@ Gem.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.gem), this.x, this.y);
 };
 
+//Method to calculate Y position of object
 Enemy.prototype.calculateY = function() {
 	let randNumX = Math.random() * 100;
 	let pos;
@@ -178,6 +137,7 @@ Enemy.prototype.calculateY = function() {
 	return pos;
 };
 
+//Method to calculate X position of object
 RandomRock.prototype.calculateX = function() {
 	let randNumX = Math.random() * 100;
 	let pos;
@@ -195,6 +155,7 @@ RandomRock.prototype.calculateX = function() {
 	return pos;
 };
 
+//Method to calculate Y position of object
 RandomRock.prototype.calculateY = function() {
 	let randNumX = Math.random() * 100;
 	let pos;
@@ -212,21 +173,6 @@ RandomRock.prototype.calculateY = function() {
 	return pos;
 };
 
-
-//Instances of enemies
-let enemy1 = new Enemy();
-let enemy2 = new Enemy();
-let enemy3 = new Enemy();
-let enemy4 = new Enemy();
-let enemy5 = new Enemy();
-let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
-let rRock = new RandomRock();
-let rRock2 = new RandomRock();
-let rocks = [sRock, rRock, rRock2];
-if (rRock.y === rRock2.y && rRock.x === rRock2.x) {
-	rRock.y += 80;
-	rRock.x += 100;
-};
 //Method to handle user directional input
 Player.prototype.handleInput = function(dir) {
 
@@ -243,6 +189,56 @@ Player.prototype.handleInput = function(dir) {
 		this.x += 0;
 	}
 };
+
+
+
+//Event listener for key presses
+document.addEventListener('keyup', function(e) {
+	var allowedKeys = {
+		37: 'left',
+		38: 'up',
+		39: 'right',
+		40: 'down'
+	};
+	player.handleInput(allowedKeys[e.keyCode]);
+});
+
+
+
+let player = new Player();
+let enemy1 = new Enemy();
+let enemy2 = new Enemy();
+let enemy3 = new Enemy();
+let enemy4 = new Enemy();
+let enemy5 = new Enemy();
+let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
+let sRock = new StaticRock();
+let rRock = new RandomRock();
+let rRock2 = new RandomRock();
+let rocks = [sRock, rRock, rRock2];
+if (rRock.y === rRock2.y && rRock.x === rRock2.x) {
+	rRock.y += 80;
+	rRock.x += 100;
+};
+let blueGem = new Gem();
+
+//Function to allow user to choose sprite at the beginning of each game
+(function getSprite() {
+	document.getElementById('play').addEventListener('click', function() {
+		player = new Player();
+
+	});
+	let sprites = Array.from(document.querySelectorAll('img'));
+	for (let i = 0; i < sprites.length; i++) {
+		sprites[i].addEventListener('click', function() {
+			let spriteSRC = sprites[i].getAttribute('src');
+			player.sprite = spriteSRC;
+			document.getElementById('beginModal').style.display = 'none';
+		});
+	}
+
+}());
+
 
 
 //Function to check for enemy/player collision and update sprite accordingly
