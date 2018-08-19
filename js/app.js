@@ -50,47 +50,13 @@ let sRock = new StaticRock();
 //Object constructor for random rocks
 var RandomRock = function() {
 	let randNumX = Math.random() * 100;
-	this.x = (function() {
-		let pos;
-		if (randNumX > 80) {
-			pos = 1.5;
-		} else if (randNumX > 60) {
-			pos = 101.5;
-		} else if (randNumX > 40) {
-			pos = 303.5;
-		} else if (randNumX > 20) {
-			pos = 404.5;
-		} else {
-			pos = 505.5;
-		}
-		return pos;
-	}());
-	this.y = (function() {
-		let pos;
-		if (randNumX > 80) {
-			pos = 225;
-		} else if (randNumX > 60) {
-			pos = 145;
-		} else if (randNumX > 40) {
-			pos = 305;
-		} else if (randNumX > 20) {
-			pos = 385;
-		} else {
-			pos = 65;
-		}
-		return pos;
-	}());
+	this.x = this.calculateX();
+	this.y = this.calculateY();
 	this.rock = 'images/Rock.png';
 	this.width = 70;
 	this.height = 70;
 };
-let rRock = new RandomRock();
-let rRock2 = new RandomRock();
-let rocks = [sRock, rRock, rRock2];
-if (rRock.y === rRock2.y && rRock.x === rRock2.x) {
-	rRock.y += 80;
-	rRock.x += 100;
-};
+
 //Object constructor for blue gem
 var Gem = function() {
 	this.x = 217;
@@ -212,6 +178,41 @@ Enemy.prototype.calculateY = function() {
 	return pos;
 };
 
+RandomRock.prototype.calculateX = function() {
+	let randNumX = Math.random() * 100;
+	let pos;
+	if (randNumX > 80) {
+		pos = 1.5;
+	} else if (randNumX > 60) {
+		pos = 101.5;
+	} else if (randNumX > 40) {
+		pos = 303.5;
+	} else if (randNumX > 20) {
+		pos = 404.5;
+	} else {
+		pos = 505.5;
+	}
+	return pos;
+};
+
+RandomRock.prototype.calculateY = function() {
+	let randNumX = Math.random() * 100;
+	let pos;
+	if (randNumX > 80) {
+		pos = 225;
+	} else if (randNumX > 60) {
+		pos = 145;
+	} else if (randNumX > 40) {
+		pos = 305;
+	} else if (randNumX > 20) {
+		pos = 385;
+	} else {
+		pos = 65;
+	}
+	return pos;
+};
+
+
 //Instances of enemies
 let enemy1 = new Enemy();
 let enemy2 = new Enemy();
@@ -219,7 +220,13 @@ let enemy3 = new Enemy();
 let enemy4 = new Enemy();
 let enemy5 = new Enemy();
 let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
-
+let rRock = new RandomRock();
+let rRock2 = new RandomRock();
+let rocks = [sRock, rRock, rRock2];
+if (rRock.y === rRock2.y && rRock.x === rRock2.x) {
+	rRock.y += 80;
+	rRock.x += 100;
+};
 //Method to handle user directional input
 Player.prototype.handleInput = function(dir) {
 
@@ -268,7 +275,7 @@ function checkWin() {
 
 //Function to stop player movement if rock is present
 function checkRocks(dt) {
-	
+
 	for (let rock of rocks) {
 		{
 			if (player.move === 'up' && player.y > rock.y) {
